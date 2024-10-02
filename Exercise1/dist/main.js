@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const Observer_1 = require("./behavioral/Observer");
+const Observer_2 = require("./behavioral/Observer");
+const Command_1 = require("./behavioral/Command");
+const Logger_1 = require("./creational/Logger");
+const NotificationFactory_1 = require("./creational/NotificationFactory");
+const PaymentAdapter_1 = require("./structural/PaymentAdapter");
+const UserDecorator_1 = require("./structural/UserDecorator");
+const user1 = new Observer_1.User("Alice");
+const notificationService = new Observer_2.NotificationService();
+notificationService.subscribe("system-update", user1);
+notificationService.notify("system-update", "New feature released!");
+const saveCommand = new Command_1.SaveCommand();
+const commandInvoker = new Command_1.CommandInvoker(saveCommand);
+commandInvoker.executeCommand();
+const logger = Logger_1.Logger.getInstance();
+logger.log('App started');
+const emailNotification = NotificationFactory_1.NotificationFactory.createNotification("email");
+emailNotification.sendNotification("Welcome to our system!");
+const payPalPayment = new PaymentAdapter_1.PayPalPayment();
+payPalPayment.makePayment(100);
+const stripePaymentAdapter = new PaymentAdapter_1.StripePaymentAdapter(new PaymentAdapter_1.StripePayment());
+stripePaymentAdapter.makePayment(200);
+const basicUser = new UserDecorator_1.BasicUser();
+const adminUser = new UserDecorator_1.AdminUser(basicUser);
+console.log(adminUser.getPermissions());
+//# sourceMappingURL=main.js.map
